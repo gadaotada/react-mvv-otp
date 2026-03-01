@@ -1,0 +1,310 @@
+.wrapper {
+    display: grid;
+    gap: 1.1rem;
+}
+
+.card {
+    border: 0;
+    outline: 1px solid hsl(214 32% 88%);
+    background: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    border-radius: 14px;
+    padding: 1rem 1rem 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+    box-shadow: 0 1px 2px hsl(220 14% 7% / 0.06);
+}
+
+.title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: hsl(222 47% 11%);
+}
+
+.hint {
+    margin: 0;
+    color: hsl(215 16% 47%);
+    font-size: 0.9rem;
+}
+
+.meta {
+    margin: 0;
+    color: hsl(215 16% 47%);
+    font-size: 0.9rem;
+}
+
+.metaError {
+    margin: 0;
+    color: hsl(0 72% 43%);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.button {
+    border: 0;
+    outline: 1px solid hsl(214 32% 86%);
+    border-radius: 8px;
+    background: hsl(0 0% 100%);
+    color: hsl(222 47% 11%);
+    padding: 0.45rem 0.75rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.button:hover {
+    background: hsl(210 40% 98%);
+    outline-color: hsl(214 32% 76%);
+}
+
+.button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px hsl(221 83% 53% / 0.2);
+}
+
+.otpRoot {
+    width: fit-content;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: hsl(222 47% 11%);
+    margin: 0 auto;
+}
+
+.otpRoot [data-group-wrap] {
+    display: inline-flex;
+    align-items: center;
+}
+
+.smsRoot [data-group] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 10px;
+    background: hsl(0 0% 100%);
+    box-shadow: 0 8px 18px -14px hsl(220 14% 7% / 0.32), 0 1px 2px hsl(220 14% 7% / 0.08);
+}
+
+.otpRoot [data-group] {
+    display: inline-flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.otpBox {
+    width: 44px;
+    height: 52px;
+    border: 0;
+    outline: 1px solid hsl(214 32% 82%);
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(0 0% 100%);
+    color: hsl(222 47% 11%);
+    caret-color: hsl(221 83% 53%);
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    box-shadow: inset 0 1px 0 hsl(210 40% 98%);
+    transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.otpBoxActive {
+    outline: 2px solid hsl(221 83% 53%);
+    box-shadow: 0 0 0 3px hsl(221 83% 53% / 0.2);
+}
+
+.smsRoot .otpBox[data-active]:not([data-has-value]) {
+    caret-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(hsl(221 83% 53%) 0 0);
+    background-repeat: no-repeat;
+    background-position: center calc(100% - 12px);
+    background-size: 20px 2.5px;
+    animation: smsCaretBlink 1.2s steps(1, end) infinite;
+}
+
+.smsRoot .otpBox[data-active][data-has-value] {
+    caret-color: hsl(221 83% 53%);
+    background-image: none;
+    animation: none;
+}
+
+@keyframes smsCaretBlink {
+    0%,
+    49% {
+        background-size: 20px 2.5px;
+    }
+    50%,
+    100% {
+        background-size: 0 2.5px;
+    }
+}
+
+.otpBoxError {
+    outline: 1px solid hsl(0 72% 43%);
+    box-shadow: 0 0 0 3px hsl(0 72% 43% / 0.15);
+}
+
+.otpBoxDisabled {
+    opacity: 0.6;
+    background: hsl(210 20% 96%);
+    color: hsl(215 16% 47%);
+}
+
+.otpValue {
+    color: hsl(222 47% 11%);
+}
+
+.boxSeparator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0.5rem;
+    color: hsl(215 16% 47%);
+    font-size: 0.95rem;
+    font-weight: 700;
+    user-select: none;
+}
+
+.groupSeparator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.35rem;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.4rem;
+    border: 0;
+    outline: 1px solid hsl(214 20% 78%);
+    background: hsl(210 40% 97%);
+    border-radius: 999px;
+    color: hsl(215 16% 47%);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .wrapper {
+        gap: 0.85rem;
+    }
+
+    .card {
+        padding: 0.85rem 0.8rem 0.95rem;
+        border-radius: 12px;
+        gap: 0.65rem;
+    }
+
+    .title {
+        font-size: 0.95rem;
+    }
+
+    .hint,
+    .meta,
+    .metaError {
+        font-size: 0.84rem;
+        line-height: 1.3;
+    }
+
+    .actions {
+        gap: 0.42rem;
+    }
+
+    .button {
+        padding: 0.42rem 0.62rem;
+        font-size: 0.82rem;
+        border-radius: 7px;
+    }
+
+    .otpRoot {
+        margin: 0 auto;
+        max-width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .otpRoot [data-group] {
+        gap: 0.28rem;
+        padding: 12px;
+    }
+
+    .otpRoot [data-group-wrap] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .groupSeparator {
+        margin: 0.35rem 0;
+    }
+
+    .otpBox {
+        width: 39px;
+        height: 46px;
+        border-radius: 9px;
+        font-size: 0.96rem;
+    }
+
+    .boxSeparator {
+        min-width: 0.35rem;
+        font-size: 0.82rem;
+    }
+
+    .groupSeparator {
+        margin: 0 0.22rem;
+        min-width: 1.05rem;
+        height: 1.05rem;
+        padding: 0 0.3rem;
+        font-size: 0.64rem;
+    }
+
+    .smsRoot .otpBox[data-active]:not([data-has-value]) {
+        background-position: center calc(100% - 10px);
+        background-size: 16px 2px;
+    }
+}
+
+@media (max-width: 420px) {
+    .card {
+        padding: 0.78rem 0.72rem 0.88rem;
+    }
+
+    .otpRoot [data-group] {
+        gap: 0.3rem;
+        padding: 10px;
+    }
+
+    .otpBox {
+        width: 34px;
+        height: 42px;
+        font-size: 0.9rem;
+    }
+
+    .boxSeparator {
+        min-width: 0.28rem;
+        font-size: 0.75rem;
+    }
+
+    .groupSeparator {
+        min-width: 0.95rem;
+        height: 0.95rem;
+        font-size: 0.58rem;
+        margin: 0.5rem 0;
+    }
+}

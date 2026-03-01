@@ -1,0 +1,38 @@
+#root {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 2rem 1rem;
+}
+
+.app {
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.panel-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.panel-title {
+  font-weight: 600;
+}
+
+.meta {
+  margin: 0.5rem 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
