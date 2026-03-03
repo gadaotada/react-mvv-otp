@@ -3,13 +3,13 @@
 ## Import
 
 ```tsx
-import { OtpInput } from "./OTP-final/otp.main";
+import { OtpInput } from "./OTP/otp.main";
 ```
 
 or from index:
 
 ```tsx
-import { OtpInput } from "./OTP-final";
+import { OtpInput } from "./OTP";
 ```
 
 ---
@@ -56,7 +56,10 @@ const [otp, setOtp] = useState("");
   - `numeric`: digits only
   - `text`: `a-zA-Z0-9`
 - `type?: "text" | "password"` default `"text"`
-- `mask?: string` custom display mask symbol (ex: `"x"`)
+- `mask?: string | readonly string[]`
+  - single symbol for all boxes: `mask="x"`
+  - per-index symbols: `mask={["d", "c", "x"] as const}`
+  - when `length` is a literal, tuple mask length is type-checked against it
 - `placeholder?: string` per-box placeholder characters (ex: `"123456"`)
 - `separator?: ReactNode` separator between boxes
 - `groupSeparator?: ReactNode` separator between groups
@@ -158,6 +161,7 @@ Suggested setup:
 ## Keyboard Behavior
 
 - typing valid char: writes current box, moves right
+- special case: typing in the last box jumps to the lowest empty box on the left (if any)
 - `Backspace` / `Delete`: same behavior in this implementation
   - clear current if it has value
   - otherwise move left
@@ -173,6 +177,7 @@ Suggested setup:
 - Uncontrolled mode: use `defaultValue`.
 - Input is sanitized by `mode`.
 - If `type="password"` or `mask` is set, display is masked.
+- `mask` arrays are resolved by index (`mask[index]`).
 
 ---
 
@@ -244,11 +249,12 @@ const authHasError = authCode.length > 0 && authCode.length < 6;
 />;
 ```
 
-### 3) Backup Code (text + mask + auto-lock on blur)
+### 3) Backup Code (text + per-index mask + auto-lock on blur)
 
 ```tsx
 const [backupCode, setBackupCode] = useState("");
 const [isAutoLockEditable, setIsAutoLockEditable] = useState(false);
+const backupMaskByIndex = ["•", "•", "*", "*", "#", "#", "x", "x"] as const;
 
 const handleAutoLockBlur = (event: FocusEvent<HTMLDivElement>) => {
   const nextFocused = event.relatedTarget as Node | null;
@@ -261,7 +267,7 @@ const handleAutoLockBlur = (event: FocusEvent<HTMLDivElement>) => {
   length={8}
   mode="text"
   type="password"
-  mask="•"
+  mask={backupMaskByIndex}
   value={backupCode}
   isDisabled={!isAutoLockEditable}
   separator="-"
