@@ -274,7 +274,7 @@ export const OtpInput = <L extends number = number,>({
         hasError,
         isDisabled,
     });
-    console.log("re-render")
+    
     return (
         <div 
             {...rest}

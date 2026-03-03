@@ -13,7 +13,7 @@ const otpClasses = {
     },
     boxValue: { base: styles.otpValue },
     boxSeparator: { base: styles.boxSeparator },
-    groupSeparator: { base: styles.groupSeparator },
+    //groupSeparator: { base: styles.groupSeparator },
 };
 
 const smsOtpClasses = {
@@ -107,7 +107,7 @@ export const OtpExamples = () => {
                     isDisabled={!isAutoLockEditable}
                     separator="-"
                     separatorEvery={4}
-                    groupSeparator="|"
+                    groupSeparator={<div style={{ background: "red" }}>T</div>}
                     placeholder="A1B2C3D4"
                     onChange={(next) => setBackupCode(next.toUpperCase())}
                     onManualComplete={() => setLastEvent("backup-complete")}
