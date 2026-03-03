@@ -1,18 +1,18 @@
-import type { OTPFinalItem } from "./otp.types";
+import type { OTPItem } from "./otp.types";
 
-export type OtpFinalState = {
-    items: OTPFinalItem[];
+export type OtpState = {
+    items: OTPItem[];
     activeIndex: number;
 };
 
-export type OtpFinalAction =
-    | { type: "SYNC_FROM_VALUE"; items: OTPFinalItem[]; activeIndex: number }
+export type OtpAction =
+    | { type: "SYNC_FROM_VALUE"; items: OTPItem[]; activeIndex: number }
     | { type: "SET_ACTIVE_INDEX"; activeIndex: number }
     | { type: "SET_TYPED_CHARS"; startIndex: number; chars: string[]; length: number }
     | { type: "CLEAR_OR_MOVE_LEFT"; index: number }
     | { type: "PASTE_ALL"; chars: string[]; length: number };
 
-export const otpFinalReducer = (state: OtpFinalState, action: OtpFinalAction): OtpFinalState => {
+export const otpReducer = (state: OtpState, action: OtpAction): OtpState => {
     switch (action.type) {
         case "SYNC_FROM_VALUE":
             return { items: action.items, activeIndex: action.activeIndex };
@@ -26,7 +26,13 @@ export const otpFinalReducer = (state: OtpFinalState, action: OtpFinalAction): O
                 writeIndex += 1;
             }
 
-            const nextActive = Math.min(writeIndex, action.length - 1);
+            const isTypingFromLastBox = action.startIndex === action.length - 1;
+            const firstEmptyIndex = nextItems.findIndex((item) => !item.value);
+            const shouldJumpToLowestEmptyLeft =
+                isTypingFromLastBox && firstEmptyIndex >= 0 && firstEmptyIndex < action.startIndex;
+            const nextActive = shouldJumpToLowestEmptyLeft
+                ? firstEmptyIndex
+                : Math.min(writeIndex, action.length - 1);
             return { items: nextItems, activeIndex: nextActive };
         }
         case "CLEAR_OR_MOVE_LEFT": {

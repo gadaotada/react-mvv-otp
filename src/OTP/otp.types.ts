@@ -1,8 +1,9 @@
 import type { FocusEvent, HTMLAttributes, KeyboardEvent, ReactNode } from "react";
 
-export type OTPFinalMode = "numeric" | "text";
+export type OTPMode = "numeric" | "text";
+export type OTPMask<L extends number = number> = string | (readonly string[] & { length: NoInfer<L> });
 
-export type OTPFinalItem = {
+export type OTPItem = {
     id: string;
     value: string;
 };
@@ -24,14 +25,14 @@ export type OTPClasses = {
     groupSeparator?: OTPStateStyles;
 };
 
-export type OTPFinalProps = Omit<HTMLAttributes<HTMLDivElement>, "onChange"> & {
+export type OTPProps<L extends number = number> = Omit<HTMLAttributes<HTMLDivElement>, "onChange"> & {
     name: string;
     value?: string;
     defaultValue?: string;
-    length?: number;
-    mode?: OTPFinalMode;
+    length?: L;
+    mode?: OTPMode;
     type?: "text" | "password";
-    mask?: string;
+    mask?: OTPMask<L>;
     placeholder?: string;
     separator?: ReactNode;
     groupSeparator?: ReactNode;
@@ -48,7 +49,7 @@ export type OTPFinalProps = Omit<HTMLAttributes<HTMLDivElement>, "onChange"> & {
     onEnter?: (value: string, event: KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export type OTPFinalBoxProps = {
+export type OTPBoxProps = {
     id: string;
     index: number;
     value: string;

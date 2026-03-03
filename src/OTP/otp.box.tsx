@@ -1,9 +1,9 @@
 import { forwardRef, memo, useCallback } from "react";
 import type { ChangeEvent, ClipboardEvent, FocusEvent, KeyboardEvent } from "react";
-import type { OTPFinalBoxProps } from "./otp.types";
+import type { OTPBoxProps } from "./otp.types";
 import { cx } from "./otp.helpers";
 
-const BoxComponent = forwardRef<HTMLInputElement, OTPFinalBoxProps>(({
+const BoxComponent = forwardRef<HTMLInputElement, OTPBoxProps>(({
     id,
     index,
     value,
@@ -45,7 +45,7 @@ const BoxComponent = forwardRef<HTMLInputElement, OTPFinalBoxProps>(({
     const handleBlur = useCallback((event: FocusEvent<HTMLInputElement>) => {
         onInputBlur(event);
     }, [onInputBlur]);
-
+    
     return (
         <input
             ref={ref}
@@ -74,4 +74,4 @@ const BoxComponent = forwardRef<HTMLInputElement, OTPFinalBoxProps>(({
     );
 });
 
-export const BoxFinal = memo(BoxComponent);
+export const Box = memo(BoxComponent);

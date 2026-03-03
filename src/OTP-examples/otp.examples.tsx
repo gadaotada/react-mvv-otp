@@ -20,6 +20,7 @@ const smsOtpClasses = {
     ...otpClasses,
     container: { base: `${styles.otpRoot} ${styles.smsRoot}` },
 };
+const backupMaskByIndex = ["a", "#", "$", "X", "l", "]", "*", ""] as const;
 
 export const OtpExamples = () => {
     const [smsCode, setSmsCode] = useState("");
@@ -101,7 +102,7 @@ export const OtpExamples = () => {
                     length={8}
                     mode="text"
                     type="password"
-                    mask="•"
+                    mask={backupMaskByIndex}
                     value={backupCode}
                     isDisabled={!isAutoLockEditable}
                     separator="-"

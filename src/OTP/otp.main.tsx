@@ -1,14 +1,14 @@
 import { Fragment, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
-import { BoxFinal } from "./otp.box";
+import { Box } from "./otp.box";
 import { createItems, cx, findFirstEmpty, isAllowedChar, resolveClass } from "./otp.helpers";
-import { otpFinalReducer } from "./otp.reducer";
-import type { OTPFinalItem, OTPFinalProps } from "./otp.types";
+import { otpReducer } from "./otp.reducer";
+import type { OTPItem, OTPProps } from "./otp.types";
 
-export const OtpInput = ({
+export const OtpInput = <L extends number = number,>({
     name,
     value,
     defaultValue,
-    length = 6,
+    length,
     mode = "numeric",
     type = "text",
     mask,
@@ -27,11 +27,11 @@ export const OtpInput = ({
     onManualComplete,
     onEnter,
     ...rest
-}: OTPFinalProps) => {
+}: OTPProps<L>) => {
     // DATA-FLOW and CONSTANTS
-    const normalizedLength = Math.max(1, length);
+    const normalizedLength = Math.max(1, Number(length ?? 6));
     const ids = useMemo(
-        () => Array.from({ length: normalizedLength }, (_, i) => `otp-final-${name}-${i}`),
+        () => Array.from({ length: normalizedLength }, (_, i) => `otp-${name}-${i}`),
         [normalizedLength, name],
     );
     const initialItems = useMemo(
@@ -45,7 +45,7 @@ export const OtpInput = ({
     // REFS
     const rootRef = useRef<HTMLDivElement | null>(null);
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-    const itemsRef = useRef<OTPFinalItem[]>(initialItems);
+    const itemsRef = useRef<OTPItem[]>(initialItems);
     const lastInternalValueRef = useRef<string | null>(null);
     const skipFirstCallbackRef = useRef(true);
     const onEnterRef = useRef(onEnter);
@@ -60,12 +60,12 @@ export const OtpInput = ({
         [ids],
     );
     const groupSize = separatorEvery && separatorEvery > 0 ? separatorEvery : normalizedLength;
-    const [state, dispatch] = useReducer(otpFinalReducer, {
+    const [state, dispatch] = useReducer(otpReducer, {
         items: initialItems,
         activeIndex: isDisabled ? -1 : findFirstEmpty(initialItems),
     });
     const groups = useMemo(() => {
-        const out: { start: number; end: number; items: OTPFinalItem[] }[] = [];
+        const out: { start: number; end: number; items: OTPItem[] }[] = [];
         for (let start = 0; start < state.items.length; start += groupSize) {
             const end = Math.min(state.items.length, start + groupSize);
             out.push({ start, end, items: state.items.slice(start, end) });
@@ -274,7 +274,7 @@ export const OtpInput = ({
         hasError,
         isDisabled,
     });
-
+    console.log("re-render")
     return (
         <div 
             {...rest}
@@ -311,7 +311,8 @@ export const OtpInput = ({
                                     hasError,
                                     isDisabled,
                                 });
-                                const displayValue = hasCustomMask && item.value ? mask ?? "" : item.value;
+                                const currentMask = Array.isArray(mask) ? (mask[index] ?? "") : (mask ?? "");
+                                const displayValue = hasCustomMask && item.value ? currentMask : item.value;
                                 const placeholderChar = placeholder ? placeholder[index] ?? "" : "";
                                 const valueClassWithPlaceholder = cx(
                                     valueClassName,
@@ -324,7 +325,7 @@ export const OtpInput = ({
 
                                 return (
                                     <Fragment key={item.id}>
-                                        <BoxFinal
+                                        <Box
                                             id={item.id}
                                             index={index}
                                             value={displayValue}
